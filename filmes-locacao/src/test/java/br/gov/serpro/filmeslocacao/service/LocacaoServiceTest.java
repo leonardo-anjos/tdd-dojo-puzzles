@@ -4,6 +4,7 @@ import br.gov.serpro.filmeslocacao.entity.FilmeEntity;
 import br.gov.serpro.filmeslocacao.entity.LocacaoEntity;
 import br.gov.serpro.filmeslocacao.entity.UsuarioEntity;
 import br.gov.serpro.filmeslocacao.utils.DataUtils;
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -22,9 +23,11 @@ public class LocacaoServiceTest {
         LocacaoEntity locacao = service.alugarFilme(usuario, filme);
 
         // verificacao
-        Assert.assertTrue(locacao.getValor() == 5.0);
-        Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()));
-        Assert.assertTrue(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)));
+        Assert.assertThat(locacao.getValor(), CoreMatchers.is(5.0));
+        Assert.assertThat(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()), CoreMatchers.is(true));
+        Assert.assertThat(DataUtils.isMesmaData(locacao.getDataRetorno(),
+                DataUtils.obterDataComDiferencaDias(1)), CoreMatchers.is(true));
 
+        
     }
 }
