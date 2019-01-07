@@ -1,11 +1,12 @@
 package br.gov.serpro.filmeslocacao.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class LocacaoEntity {
 
     private UsuarioEntity usuario;
-    private FilmeEntity filme;
+    private List<FilmeEntity> filmes;
     private Date dataLocacao;
     private Date dataRetorno;
     private Double valor;
@@ -13,9 +14,9 @@ public class LocacaoEntity {
     public LocacaoEntity() {
     }
 
-    public LocacaoEntity(UsuarioEntity usuario, FilmeEntity filme, Date dataLocacao, Date dataRetorno, Double valor) {
+    public LocacaoEntity(UsuarioEntity usuario, List<FilmeEntity> filmes, Date dataLocacao, Date dataRetorno, Double valor) {
         this.usuario = usuario;
-        this.filme = filme;
+        this.filmes = filmes;
         this.dataLocacao = dataLocacao;
         this.dataRetorno = dataRetorno;
         this.valor = valor;
@@ -53,12 +54,12 @@ public class LocacaoEntity {
         this.valor = valor;
     }
 
-    public FilmeEntity getFilme() {
-        return filme;
+    public List<FilmeEntity> getFilme() {
+        return filmes;
     }
 
-    public void setFilme(FilmeEntity filme) {
-        this.filme = filme;
+    public void setFilmes(List<FilmeEntity> filmes) {
+        this.filmes = filmes;
     }
 
 }
