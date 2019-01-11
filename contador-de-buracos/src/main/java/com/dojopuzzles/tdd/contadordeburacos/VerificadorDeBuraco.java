@@ -9,6 +9,14 @@ public class VerificadorDeBuraco {
 
 	public VerificadorDeBuraco() {
 		this.letras = new HashMap<Character, Integer>();
+		this.letras.put('a', 1);
+		this.letras.put('b', 1);
+		this.letras.put('d', 1);
+		this.letras.put('e', 1);
+		this.letras.put('g', 1);
+		this.letras.put('o', 1);
+		this.letras.put('p', 1);
+		this.letras.put('q', 1);
 		this.letras.put('A', 1);
 		this.letras.put('B', 2);
 		this.letras.put('D', 1);
@@ -26,5 +34,5 @@ public class VerificadorDeBuraco {
 		}
 		return cont;
 	}
-	
+
 }

@@ -54,5 +54,15 @@ public class ContadorDeBuracosApplicationTests {
 
 		Assert.assertEquals(4, cont);
 	}
+	
+	@Test
+	public void cincoBuracos() {
+		String palavra = "leonardo";
+		VerificadorDeBuraco vdb = new VerificadorDeBuraco();
+		int cont = vdb.quantidadeDeBuracos(palavra);
+
+		Assert.assertEquals(5, cont);
+	}
+	
 
 }
