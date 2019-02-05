@@ -1,5 +1,8 @@
 package br.gov.serpro.filmeslocacao.service;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -10,7 +13,6 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -19,6 +21,7 @@ import org.junit.rules.ExpectedException;
 import br.gov.serpro.filmeslocacao.entity.FilmeEntity;
 import br.gov.serpro.filmeslocacao.entity.LocacaoEntity;
 import br.gov.serpro.filmeslocacao.entity.UsuarioEntity;
+import br.gov.serpro.filmeslocacao.matchers.MatchersProprios;
 import br.gov.serpro.filmeslocacao.utils.DataUtils;
 import exceptions.FilmesSemEstoqueException;
 import exceptions.LocadoraException;
@@ -42,16 +45,16 @@ public class LocacaoServiceTest {
 	public void locacaoFilmeSucesso() throws Exception {
 		// cenario
 		UsuarioEntity usuario = new UsuarioEntity("Michael");
-		List<FilmeEntity> filmes = Arrays.asList(new FilmeEntity("Acqua Man", 10, 5.0));
+		List<FilmeEntity> filmes = Arrays.asList(new FilmeEntity("Acqua Man", 1, 5.0));
 
 		// acao
 		LocacaoEntity locacao = service.alugarFilme(usuario, filmes);
 
 		// verificacao
-		error.checkThat(locacao.getValor(), CoreMatchers.is(5.0));
-		error.checkThat(DataUtils.isMesmaData(locacao.getDataLocacao(), new Date()), CoreMatchers.is(true));
-		error.checkThat(DataUtils.isMesmaData(locacao.getDataRetorno(), DataUtils.obterDataComDiferencaDias(1)),
-				CoreMatchers.is(true));
+		error.checkThat(locacao.getValor(), is(equalTo(5.0)));
+		error.checkThat(locacao.getDataLocacao(), MatchersProprios.ehHoje());
+		error.checkThat(locacao.getDataRetorno(), MatchersProprios.ehHojeComDiferencaDias(1));
+
 	}
 
 	// tratando excecao de forma elegante
@@ -61,7 +64,6 @@ public class LocacaoServiceTest {
 		UsuarioEntity usuario = new UsuarioEntity("Michael");
 		List<FilmeEntity> filmes = Arrays.asList(new FilmeEntity("Acqua Man", 0, 5.0));
 
-		// acao
 		LocacaoEntity locacao = service.alugarFilme(usuario, filmes);
 	}
 
@@ -182,18 +184,18 @@ public class LocacaoServiceTest {
 
 	@Test
 	public void devolverFimeSegundaFeiraAoAlugarSabado() throws FilmesSemEstoqueException, LocadoraException {
-		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));	
-		
+		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+
 		// cenario
-		UsuarioEntity usuario = new UsuarioEntity("Michael");
-		List<FilmeEntity> filmes = Arrays.asList(new FilmeEntity("Acqua Man", 10, 5.0));
+		UsuarioEntity usuario = new UsuarioEntity("Gohan filho do goku");
+		List<FilmeEntity> filmes = Arrays.asList(new FilmeEntity("A procura das estrelas do dragão", 1, 5.0));
 
 		// acao
-		LocacaoEntity locacao = service.alugarFilme(usuario, filmes);
+		LocacaoEntity retorno = service.alugarFilme(usuario, filmes);
 
 		// verificacao
-		boolean segundaFeira = DataUtils.verificarDiaSemana(locacao.getDataRetorno(), Calendar.MONDAY);
-		Assert.assertTrue(segundaFeira);
+		Assert.assertThat(retorno.getDataRetorno(), MatchersProprios.caiNumaSegunda());
+
 	}
 
 }

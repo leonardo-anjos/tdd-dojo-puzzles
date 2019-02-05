@@ -38,14 +38,22 @@ public class LocacaoService {
 		locacao.setDataLocacao(new Date());
 
 		Double valorTotal = 0d;
-		for(int i = 0; i < filmes.size(); i++) {
+		for (int i = 0; i < filmes.size(); i++) {
 			FilmeEntity filme = filmes.get(i);
 			Double valorFilme = filme.getPrecoLocacao();
 			switch (i) {
-				case 2: valorFilme = valorFilme * 0.75; break;
-				case 3: valorFilme = valorFilme * 0.5; break;
-				case 4: valorFilme = valorFilme * 0.25; break;
-				case 5: valorFilme = 0d; break;
+			case 2:
+				valorFilme = valorFilme * 0.75;
+				break;
+			case 3:
+				valorFilme = valorFilme * 0.5;
+				break;
+			case 4:
+				valorFilme = valorFilme * 0.25;
+				break;
+			case 5:
+				valorFilme = 0d;
+				break;
 			}
 			valorTotal += valorFilme;
 		}
@@ -53,7 +61,7 @@ public class LocacaoService {
 
 		Date dataEntrega = new Date();
 		dataEntrega = adicionarDias(dataEntrega, 1);
-		if(DataUtils.verificarDiaSemana(dataEntrega, Calendar.SUNDAY)) {
+		if (DataUtils.verificarDiaSemana(dataEntrega, Calendar.SUNDAY)) {
 			dataEntrega = adicionarDias(dataEntrega, 1);
 		}
 		locacao.setDataRetorno(dataEntrega);
